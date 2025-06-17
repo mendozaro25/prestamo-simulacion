@@ -13,30 +13,24 @@ type Cuota = {
 };
 
 export default function SimuladorPrestamo() {
-  // Estados
   const [monto, setMonto] = useState(10000);
   const [plazo, setPlazo] = useState(12);
   const [interesAnual, setInteresAnual] = useState(24);
   const [cuotas, setCuotas] = useState<Cuota[]>([]);
-  const [mostrarInfo, setMostrarInfo] = useState(false);
   const resultadoRef = useRef<HTMLDivElement>(null);
 
-  // Cálculo de intereses
   const interesMensual = interesAnual / 12 / 100;
   const totalInteres = monto * interesMensual * plazo;
   const totalPagar = monto + totalInteres;
   const cuotaMensual = totalPagar / plazo;
 
-  // Formateador de moneda
   const formatear = (valor: number) =>
     new Intl.NumberFormat("es-PE", {
       style: "currency",
       currency: "PEN",
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
     }).format(valor);
 
-  // Generar tabla de amortización
   const generarTablaAmortizacion = () => {
     const nuevasCuotas: Cuota[] = [];
     let saldoPendiente = monto;
@@ -59,7 +53,6 @@ export default function SimuladorPrestamo() {
     setCuotas(nuevasCuotas);
   };
 
-  // Efecto para cálculos y animación
   useEffect(() => {
     generarTablaAmortizacion();
 
@@ -78,42 +71,33 @@ export default function SimuladorPrestamo() {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text">
+            <h1 className="text-2xl md:text-3xl font-bold">
               Simulador de Préstamo Personal
             </h1>
             <p className="text-sm text-gray-500">
               Calcula tu préstamo y revisa la tabla de amortización completa
             </p>
           </div>
-          <button
-            onClick={() => setMostrarInfo(!mostrarInfo)}
-            className="p-1 rounded-full text-gray-500 hover:text-gray-700 transition-colors"
-            aria-label="Información"
-          >
-            <InformationCircleIcon className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Información adicional */}
-        {mostrarInfo && (
-          <div className="mb-6 p-4 rounded-lg bg-blue-50">
-            <h3 className="font-medium text mb-2">
-              ¿Cómo funciona el simulador?
-            </h3>
-            <p className="text-sm">
+          <div className="relative group">
+            <button
+              className="p-1 rounded-full text-gray-500 hover:text-gray-700"
+              aria-label="Información"
+            >
+              <InformationCircleIcon className="h-5 w-5" />
+            </button>
+            <div className="absolute right-full top-1/2 -translate-y-1/2 ml-3 hidden group-hover:block bg-black text-gray-300 text-sm px-4 py-2 rounded shadow-lg w-64 z-10">
               Este simulador calcula tu préstamo bajo el método de interés
-              simple. Ingresa el monto deseado, el plazo en meses y la tasa de
-              interés anual para conocer tu cuota mensual y el detalle de cada
-              pago.
-            </p>
+              simple. Ingresa el monto, el plazo y la tasa anual para conocer tu
+              cuota mensual.
+            </div>
           </div>
-        )}
+        </div>
 
         {/* Controles */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Monto */}
           <div>
-            <label className="block font-medium text mb-2">
+            <label className="block font-medium mb-2">
               Monto del préstamo (S/)
             </label>
             <div className="flex items-center gap-3">
@@ -124,7 +108,7 @@ export default function SimuladorPrestamo() {
                 step="1000"
                 value={monto}
                 onChange={(e) => setMonto(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                className="w-full accent-orange-500"
               />
               <input
                 type="number"
@@ -132,19 +116,15 @@ export default function SimuladorPrestamo() {
                 max="100000"
                 step="1000"
                 value={monto}
-                onChange={(e) => setMonto(parseInt(e.target.value) || 1000)}
+                onChange={(e) => setMonto(Number(e.target.value) || 1000)}
                 className="w-24 p-2 border border-gray-300 rounded-md text-right"
               />
-            </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>S/ 1,000</span>
-              <span>S/ 100,000</span>
             </div>
           </div>
 
           {/* Plazo */}
           <div>
-            <label className="block font-medium text mb-2">Plazo (meses)</label>
+            <label className="block font-medium mb-2">Plazo (meses)</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -153,7 +133,7 @@ export default function SimuladorPrestamo() {
                 step="1"
                 value={plazo}
                 onChange={(e) => setPlazo(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                className="w-full accent-orange-500"
               />
               <input
                 type="number"
@@ -161,19 +141,15 @@ export default function SimuladorPrestamo() {
                 max="36"
                 step="1"
                 value={plazo}
-                onChange={(e) => setPlazo(parseInt(e.target.value) || 3)}
+                onChange={(e) => setPlazo(Number(e.target.value) || 3)}
                 className="w-20 p-2 border border-gray-300 rounded-md text-right"
               />
-            </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>3 meses</span>
-              <span>36 meses</span>
             </div>
           </div>
 
           {/* Interés */}
           <div>
-            <label className="block font-medium text mb-2">
+            <label className="block font-medium mb-2">
               Tasa de interés anual (%)
             </label>
             <div className="flex items-center gap-3">
@@ -184,7 +160,7 @@ export default function SimuladorPrestamo() {
                 step="0.5"
                 value={interesAnual}
                 onChange={(e) => setInteresAnual(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                className="w-full accent-orange-500"
               />
               <input
                 type="number"
@@ -198,10 +174,6 @@ export default function SimuladorPrestamo() {
                 className="w-20 p-2 border border-gray-300 rounded-md text-right"
               />
             </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>5%</span>
-              <span>60%</span>
-            </div>
           </div>
         </div>
 
@@ -209,7 +181,7 @@ export default function SimuladorPrestamo() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
             <p className="text-sm text-gray-600 mb-1">Monto solicitado</p>
-            <p className="text-xl font-bold text">{formatear(monto)}</p>
+            <p className="text-xl font-bold">{formatear(monto)}</p>
           </div>
           <div className="p-4 rounded-lg bg-orange-50 border border-orange-100">
             <p className="text-sm text-gray-600 mb-1">Cuota mensual</p>
@@ -227,8 +199,8 @@ export default function SimuladorPrestamo() {
 
         {/* Tabla de amortización */}
         <div ref={resultadoRef} className="mb-4">
-          <h3 className="font-semibold text mb-4">Tabla de Amortización</h3>
-          <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm max-h-79 overflow-y-auto">
+          <h3 className="font-semibold mb-4">Tabla de Amortización</h3>
+          <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm max-h-[250px] overflow-y-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-100">
                 <tr>

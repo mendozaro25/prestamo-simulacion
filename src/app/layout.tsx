@@ -1,48 +1,44 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { ReactNode } from "react";
+import "./styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Simulador de Prestamo Personal",
-  description: "Simula tu préstamo y revisa la tabla de amortización completa",
+export const metadata = {
+  title: "Simulador de Préstamo Personal | JLuu",
+  description: "Simulador de Préstamo Personal",
+  keywords: [
+    "Simulador de Préstamo Personal",
+    "Simulador de Gratificación y CTS",
+    "Simulador de RH",
+    "Simulador de Prestamo",
+    "Simulador de Préstamo",
+    "Gratificación",
+    "CTS",
+    "RH",
+    "Prestamo",
+    "Préstamo",
+  ],
+  viewport: "width=device-width, initial-scale=1",
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+  appleWebApp: {
+    title: "Simulador de Préstamo Personal",
+    statusBarStyle: "light",
+    themeColor: "#000000",
+    backgroundColor: "#ffffff",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" className="h-full">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="author" content="Tu Nombre" />
-        <meta
-          name="keywords"
-          content="préstamo, simulador, amortización, finanzas"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/og-image.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="/og-image.png" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="es">
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
