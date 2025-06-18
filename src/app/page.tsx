@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  InformationCircleIcon,
   ArrowPathIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 type Cuota = {
   mes: number;
