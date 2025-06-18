@@ -22,4 +22,32 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: sans-serif;
+}
+
+/* Style for Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aeaeae;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.3s ease-in-out;
+  min-height: 50px;
+  min-width: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aeaeae;
 }
